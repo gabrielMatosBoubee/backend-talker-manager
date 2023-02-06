@@ -1,7 +1,7 @@
 const express = require('express');
 const crypto = require('crypto');
 const talkerJson = require('./talker.json');
-const { readTalker, writeTalker } = require('./readAndWriteFiles');
+const { readTalker, writeTalker, deleteTalker } = require('./readAndWriteFiles');
 
 const app = express();
 app.use(express.json());
@@ -180,4 +180,12 @@ talkAndWatchedAtValidate, rateValidate, async (req, res) => {
   const newTalker = { ...talker, name, age, talk: { ...talk } };
   await writeTalker(newTalker);
   res.status(200).json(newTalker);
+});
+
+app.delete('/talker/:id', hasAutorization, authorizationValidate, async (req, res) => {
+  const { id } = req.params;
+  const file = await readTalker();
+  const talker = file.filter((obj) => obj.id !== Number(id));
+  await deleteTalker(talker);
+  res.status(204).json();
 });

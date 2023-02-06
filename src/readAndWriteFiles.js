@@ -14,4 +14,8 @@ const writeTalker = async (file) => {
     await fs.writeFile('src/talker.json', JSON.stringify(array));
 };
 
-module.exports = { readTalker, writeTalker };
+const deleteTalker = async (file) => {
+    await fs.writeFile('src/talker.json', JSON.stringify(file));
+};
+
+module.exports = { readTalker, writeTalker, deleteTalker };
