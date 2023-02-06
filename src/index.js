@@ -1,4 +1,5 @@
 const express = require('express');
+const crypto = require('crypto');
 const talkerJson = require('./talker.json');
 const { readTalker } = require('./readAndWriteFiles');
 
@@ -34,4 +35,9 @@ app.get('/talker/:id', async (req, res) => {
   }); 
 }
   res.status(200).json(talker);
+});
+
+app.post('/login', async (req_, res) => { 
+  const token = crypto.randomBytes(8).toString('hex');
+  res.status(200).json({ token }); 
 });
