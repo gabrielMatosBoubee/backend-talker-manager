@@ -37,7 +37,47 @@ app.get('/talker/:id', async (req, res) => {
   res.status(200).json(talker);
 });
 
-app.post('/login', async (req_, res) => { 
-  const token = crypto.randomBytes(8).toString('hex');
+const hasEmail = async (req, res, next) => {
+  const { body } = req;
+  if (!body.email) {
+ return res.status(400).json({
+  message: 'O campo "email" é obrigatório',
+}); 
+}
+ next(); 
+};
+
+const validateEmail = async (req, res, next) => {
+  const { email } = req.body;
+  if (!/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+/i.test(email)) {
+    return res.status(400).json({
+     message: 'O "email" deve ter o formato "email@email.com"',
+   });
+   }
+   next();
+};
+
+const hasPassword = (req, res, next) => {
+  const { password } = req.body;
+  if (!password) {
+    return res.status(400).json({
+     message: 'O campo "password" é obrigatório',
+   }); 
+   }
+   next();
+};
+
+const validadePassword = (req, res, next) => {
+  const { password } = req.body;
+  if (password.length < 6) {
+ res.status(400).json({
+    message: 'O "password" deve ter pelo menos 6 caracteres',
+  }); 
+}
+next();
+};
+
+app.post('/login', hasEmail, validateEmail, hasPassword, validadePassword, (req, res) => {
+const token = crypto.randomBytes(8).toString('hex');
   res.status(200).json({ token }); 
 });
