@@ -8,4 +8,10 @@ const readTalker = async () => {
     } catch (error) { return null; }
 };
 
-module.exports = { readTalker };
+const writeTalker = async (file) => {
+    const array = await readTalker();
+    array.push(file);
+    await fs.writeFile('src/talker.json', JSON.stringify(array));
+};
+
+module.exports = { readTalker, writeTalker };
