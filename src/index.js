@@ -170,3 +170,14 @@ talkAndWatchedAtValidate, rateValidate, async (req, res) => {
   await writeTalker(newTalker);
   res.status(201).json(newTalker); 
 });
+
+app.put('/talker/:id', hasAutorization, authorizationValidate, nameValidate, ageValidate, 
+talkAndWatchedAtValidate, rateValidate, async (req, res) => {
+  const { id } = req.params;
+  const { name, age, talk } = req.body;
+  const file = await readTalker();
+  const talker = file.find((obj) => obj.id === Number(id));
+  const newTalker = { ...talker, name, age, talk: { ...talk } };
+  await writeTalker(newTalker);
+  res.status(200).json(newTalker);
+});
