@@ -37,7 +37,7 @@ Para instalar este projeto na sua máquina localmente siga estes passos
 4. Execute outro terminal para os testes
 
 ```javascript
-  docker exec -it talker_manager bash && 
+  docker exec -it talker_manager bash
 ```
 
 5. Execute os testes usando 
